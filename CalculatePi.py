@@ -5,6 +5,16 @@ from decimal import *
 
 sys.setrecursionlimit(100000)
 
+
+def factorial(n):
+    """
+    return n!
+    using recurrsion method
+    """
+    if n == 1 or n == 0:
+        return 1
+    return n*factorial(n-1)
+
 def leibniz(n): #  leibniz formula for π
     """
     parameter int n is for rounds of iteration
@@ -29,12 +39,6 @@ def another(n): #  https://math.stackexchange.com/questions/1023195/infinite-ser
     for i in range(1,n):
         sum = sum + (6/(i**2))
     return sum**(1/2) #  can be use after n > 1000000, Presion 5 digit
-
-def factorial(n):
-    if n == 1 or n == 0:
-        return 1
-    return n*factorial(n-1)
-
 
 def Ramanujan(n): #  Ramanujan's formulae
     """
