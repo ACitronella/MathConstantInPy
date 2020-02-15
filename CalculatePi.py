@@ -123,4 +123,9 @@ def Chudnovsky2(n = 500, prec = 5000): # more efficient version of Chudnovsky
     prec = prec - 3 
     return str(426880*Decimal(10005).sqrt() / sum)[:prec]
 
-print(Chudnovsky2()) 
+sum = 0
+a = str(factorial(100))
+for i in a:
+    sum = sum + int(i)
+
+print(sum)
