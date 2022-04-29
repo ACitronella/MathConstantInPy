@@ -1,19 +1,10 @@
 #  3.1415926535897932384626433...
-import math
 import sys
-from decimal import *
+from decimal import Decimal, getcontext
+from util import factorial, how_much_many_decimal_place_match
 
 sys.setrecursionlimit(100000)
 
-
-def factorial(n):
-    """
-    return n!
-    using recurrsion method
-    """
-    if n == 1 or n == 0:
-        return 1
-    return n*factorial(n-1)
 
 def leibniz(n): #  leibniz formula for π
     """
@@ -123,9 +114,5 @@ def Chudnovsky2(n = 500, prec = 5000): # more efficient version of Chudnovsky
     prec = prec - 3 
     return str(426880*Decimal(10005).sqrt() / sum)[:prec]
 
-sum = 0
-a = str(factorial(100))
-for i in a:
-    sum = sum + int(i)
-
-print(sum)
+if __name__ == "__main__":
+    print(how_much_many_decimal_place_match(leibniz(1000000), "pi"))
