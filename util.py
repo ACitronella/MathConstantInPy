@@ -34,3 +34,7 @@ def string_match_upto(x:str, ref:str, verbose:bool=False):
     if verbose:
         print("matched all")
     return -1
+
+def sequence_forward_different(seq):
+    assert len(seq) > 1
+    return list(map(lambda x0, x1: x1 - x0, seq, seq[1:]))

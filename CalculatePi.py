@@ -1,10 +1,9 @@
 #  3.1415926535897932384626433...
 import sys
 from decimal import Decimal, getcontext
-from util import factorial, how_much_many_decimal_place_match
+from util import factorial, how_much_many_decimal_place_match, sequence_forward_different
 
 sys.setrecursionlimit(100000)
-
 
 def leibniz(n): #  leibniz formula for π
     """
@@ -39,7 +38,6 @@ def Ramanujan(n): #  Ramanujan's formulae
     time uses for computing is longer
     """
     sum = Decimal(0.0)
-    getcontext().prec = 100
     first = Decimal((2.0*pow(2.0,(1/2)))/9801.0)
     for k in range(n):
         second = Decimal(factorial(4*k))
@@ -114,5 +112,23 @@ def Chudnovsky2(n = 500, prec = 5000): # more efficient version of Chudnovsky
     prec = prec - 3 
     return str(426880*Decimal(10005).sqrt() / sum)[:prec]
 
+def ratio_of_circumference_circle(n, prec:int=100):
+    """
+    y(x) = (1 - x^2)^2 (top half of circle with radius 1)
+    riemman integral of (1 + D_x(y(x))^2)^(1/2) from x in (-1, 1)
+    suffer from sqrt and abuse of memory
+    """
+    getcontext().prec = prec
+    # radius = 1
+    x = list(map(lambda x : (Decimal(x)+1) * 2/n - 1, range(n-1)))
+    y_function = lambda x : (-x*x + 1).sqrt()
+    y = list(map(y_function, x))
+    dx = [Decimal(2/n)]*len(y) # sequence_forward_different(x) 
+    dy = sequence_forward_different(y)
+    dl = list(map(lambda x, y: (x*x + y*y).sqrt(), dx, dy))
+    return sum(dl)
+
 if __name__ == "__main__":
-    print(how_much_many_decimal_place_match(leibniz(1000000), "pi"))
+    # print(how_much_many_decimal_place_match(leibniz(1000000), "pi"))
+    print(how_much_many_decimal_place_match(pi:=ratio_of_circumference_circle(1000000), "pi"))
+    print(pi)
