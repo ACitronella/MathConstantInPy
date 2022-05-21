@@ -2,17 +2,17 @@
 from decimal import getcontext, Decimal
 from util import how_much_many_decimal_place_match
 
-getcontext().prec = 1000
-
-def Bernoulli(n): # https://en.wikipedia.org/wiki/E_(mathematical_constant)
+def Bernoulli(n:int=100, prec:int=100) -> Decimal: # https://en.wikipedia.org/wiki/E_(mathematical_constant)
     """
     not effient at all
     at n = 1000000000000000000000000000
     return 2.7182818284590452353602874 69993521583527724476019815...
     """
+    getcontext().prec = prec
     return (1 + Decimal(1)/Decimal(n))**n
 
-def factorial_method(n):
+def factorial_method(n:int=100, prec:int=100) -> Decimal:
+    getcontext().prec = prec
     sum = Decimal(0)
     accumulate_factorial = 1
     for i in range (1,n):
@@ -21,5 +21,6 @@ def factorial_method(n):
     return sum
 
 if __name__ == "__main__":
-    print(how_much_many_decimal_place_match(factorial_method(1000), "e"))
+    print(how_much_many_decimal_place_match(e:=factorial_method(1000), "e"))
+    print(e)
     
