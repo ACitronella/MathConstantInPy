@@ -39,3 +39,14 @@ def string_match_upto(x:str, ref:str, verbose:bool=False):
 def sequence_forward_different(seq):
     assert len(seq) > 1
     return list(map(lambda x0, x1: x1 - x0, seq, seq[1:]))
+
+def main(fn_list, val:str):
+    for idx, fn in enumerate(fn_list):
+        print("%d: %s (%s)" % (idx, fn.__name__, fn.__doc__))
+    while (not (idx:=input("Select how you calculate %s: " % val)).isnumeric()) or (int(idx) >= len(fn_list)): print("invalid input")
+    while (not (n:=input("how many iteration: ")).isnumeric()) or (int(n) <= 0): print("invalid input")
+    while (not (prec:=input("how many precision: ")).isnumeric()) or (int(prec) <= 0): print("invalid input")
+    idx = int(idx); n = int(n); prec = int(prec)
+    x = fn_list[idx](n, prec)
+    print("Output: ", x)
+    print(how_much_many_decimal_place_match(x, val, verbose=True))
