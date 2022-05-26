@@ -120,17 +120,20 @@ def Chudnovsky2(n:int=100, prec:int=100) -> Decimal: # more efficient version of
 def ratio_of_circumference_circle(n:int, prec:int=100) -> Decimal:
     """
     y(x) = (1 - x^2)^2 (top half of circle with radius 1),
-    riemman integral of (1 + D_x(y(x))^2)^(1/2) from x in (-1, 1),
+    riemman integral of \\longS (1 + D_x(y(x))^2)^(1/2) dx from x in (-1, 1),
     suffer from sqrt and abuse of memory
     """
     getcontext().prec = prec
-    x = list(map(lambda x : (Decimal(x)+1) * 2/n - 1, range(n-1)))
-    y_function = lambda x : (-x*x + 1).sqrt()
-    y = list(map(y_function, x))
-    dx = [Decimal(2/n)]*len(y) # sequence_forward_different(x) 
+    dx = Decimal(2/n)
+    dx2 = dx*dx
+
+    x = map(lambda x : Decimal(x) * dx - 1, range(n))
+    y = list(map(lambda x : (1 - x*x).sqrt(), x))
+    
     dy = sequence_forward_different(y)
-    dl = list(map(lambda x, y: (x*x + y*y).sqrt(), dx, dy))
-    return reduce(lambda x, y: x + y, dl)
+    dl = list(map(lambda y: (1 + y*y/dx2).sqrt(), dy))
+    return reduce(lambda x, y: x + y, dl)*dx # use this instead of sum, bc dl is Decimal, not float
+
 
 if __name__ == "__main__":
     fn_list = [leibniz, another, Ramanujan, Spigot, Nilakantha, Chudnovsky, Chudnovsky2, ratio_of_circumference_circle]
